@@ -1,0 +1,270 @@
+<?php
+    $GLOBALS['src'] = get_template_directory_uri();
+    $GLOBALS['themeName'] = get_option('template');
+    global $wp;  
+    $current_url = add_query_arg(array(), $wp->request);
+    $page_id = get_queried_object_id(); 
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $details = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $ip)); 
+    $timezonecountry = $details['geoplugin_countryCode'];
+    $countrycontinent = $details['geoplugin_continentName'];
+    $countrycontinentCode = $details['geoplugin_continentCode'];
+?>
+
+<!DOCTYPE html>
+<html lang="en" <?php if (is_404()) {echo 'class="overflow"';} ?>>
+<head>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+    <link rel="stylesheet" href="https://use.typekit.net/dpk7lol.css">
+    <?php 
+    if (!is_paged()) { 
+        function ensure_trailing_slash($url) {
+            return trailingslashit($url);
+        }
+
+        $base_url = 'https://projectmanagement.ie/';
+        $base_url_gb = 'https://instituteprojectmanagement.com/';
+        $current_path = $current_url;
+
+        $lang_urls = array(
+            'en' => ensure_trailing_slash($base_url_gb . $current_path), // English Speakers generic
+            'ga' => ensure_trailing_slash($base_url . $current_path), // Irish Speakers generic
+            'en-ie' => ensure_trailing_slash($base_url . $current_path), // English Speakers in Ireland
+            'ga-ie' => ensure_trailing_slash($base_url . $current_path), // Irish Speakers in Ireland
+            'en-gb' => ensure_trailing_slash($base_url_gb . $current_path), // English Speakers in UK
+            'x-default' => ensure_trailing_slash($base_url_gb . $current_path) // Default if user is outside of the previously specefied regions
+        );
+        
+        foreach ($lang_urls as $lang => $url) {
+            echo '<link rel="alternate" href="' . $url . '" hreflang="' . $lang . '" />' . PHP_EOL;
+        }
+    }  
+    ?>
+   <style>
+       @font-face {
+           font-family:"Runda-Normal";
+           src: url('<?php echo $GLOBALS['src'] . '/src/fonts/5196282/df3ea014-0ac4-4ff5-ac50-323ec2c6f0dc.woff2'; ?>') format('woff2'),
+               url('<?php echo $GLOBALS['src'] . '/src/fonts/5196282/2938b890-304a-479d-83cb-f0157c12a1bc.woff'; ?>') format("woff");
+               font-display: swap;
+       }
+       @font-face {
+           font-family:"Runda-Normal-Italic";
+           src: url('<?php echo $GLOBALS['src'] . '/src/fonts/5199790/665aec31-a360-4d9f-a2ca-7c7e80b50f0c.woff2'; ?>') format('woff2'),
+               url('<?php echo $GLOBALS['src'] . '/src/fonts/5199790/dd46f045-3ba2-478d-8bbb-6722ed5a6157.woff'; ?>') format('woff');
+               font-display: swap;
+       }
+       @font-face {
+           font-family:"Runda-Medium";
+           src: url('<?php echo $GLOBALS['src'] . '/src/fonts/5207113/6efad529-e204-4c38-8448-f1b8443cac9a.woff2'; ?>') format('woff2'),
+               url('<?php echo $GLOBALS['src'] . '/src/fonts/5207113/28ef7445-09f7-4650-9379-52cc171a17bb.woff'; ?>') format('woff');
+               font-display: swap;
+       }
+       @font-face {
+           font-family: 'icomoon';
+           src: url('<?php echo $GLOBALS['src'] . '/src/fonts/icomoon.woff'; ?>') format('woff');
+           font-style: normal;
+           font-weight: normal;
+           font-display: block;
+       }
+   </style>
+
+   <link rel="apple-touch-icon" sizes="57x57" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-57x57.png'">
+   <link rel="apple-touch-icon" sizes="60x60" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-60x60.png'">
+   <link rel="apple-touch-icon" sizes="72x72" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-72x72.png'">
+   <link rel="apple-touch-icon" sizes="76x76" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-76x76.png'">
+   <link rel="apple-touch-icon" sizes="114x114" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-114x114.png'">
+   <link rel="apple-touch-icon" sizes="120x120" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-120x120.png'">
+   <link rel="apple-touch-icon" sizes="144x144" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-144x144.png'">
+   <link rel="apple-touch-icon" sizes="152x152" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-152x152.png'">
+   <link rel="apple-touch-icon" sizes="180x180" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/apple-icon-180x180.png'">
+   <link rel="icon" type="image/png" sizes="192x192"  href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/android-icon-192x192.png'">
+   <link rel="icon" type="image/png" sizes="32x32" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/favicon-32x32.png'">
+   <link rel="icon" type="image/png" sizes="96x96" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/favicon-96x96.png'">
+   <link rel="icon" type="image/png" sizes="16x16" href="<?php echo  $GLOBALS['src'] ?>'/src/favicons/favicon-16x16.png'">
+   <link rel="manifest" href="<?php echo  $GLOBALS['src'] ?>/src/favicons/manifest.json">
+   <meta name="msapplication-TileColor" content="#ffffff">
+   <meta name="msapplication-TileImage" content="<?php echo  $GLOBALS['src'] ?>'/src/favicons/ms-icon-144x144.png'">
+   <meta name="theme-color" content="#ffffff">
+   <meta name="google-site-verification" content="Ol9xkc5vZ9LVjDLdoJGTTX5BjjLaX67SmkArrdqUiRo" />
+   <link rel="icon" href="<?php echo $GLOBALS['src'] . '/src/img/favicons/favicon.ico'; ?>"/>
+   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css'>
+   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick-theme.min.css'>
+   <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['src'] . '/src/css/style.min.css'; echo '?ver=' . filemtime(get_stylesheet_directory() . '/src/css/style.min.css'); ?>" />
+   <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['src'] . '/src/css/custom.css'; echo '?ver=' . filemtime(get_stylesheet_directory() . '/src/css/custom.css'); ?>" />
+   <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
+   <title><?php wp_title( ' ', true, 'right' ); ?></title>
+   <meta charset="<?php bloginfo('charset'); ?>">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <meta name="facebook-domain-verification" content="7vdo6mukk44an6pvb7hyjbl58cfq5j" />
+
+   <?php
+   if(!empty($countrycontinent) && $countrycontinent != ''){
+    if($countrycontinent == 'Europe' || $countrycontinentCode == 'EU'){
+    if($timezonecountry == 'GB'){
+         $currency = "£"; 
+         $zocurrency = 'GBP';
+         $zoregion = "UK";
+        $phone = get_field('tel_ukk', 'options') ? get_field('tel_ukk', 'options') : '01 6614677';
+     }elseif($timezonecountry == 'IE'){
+         $currency = "€"; 
+         $zocurrency = 'EUR';
+         $zoregion = "Ireland";
+        $phone = get_field('tel_ire', 'options') ? get_field('tel_ire', 'options') : '01 6614677';
+     }else{
+         $currency = "€"; 
+         $zocurrency = 'EUR';
+         $zoregion = "EU";
+        $phone = get_field('tel_ire', 'options') ? get_field('tel_ire', 'options') : '01 6614677';
+     }
+ }elseif($countrycontinent == 'North America' || $countrycontinentCode == 'NA'){
+     if($timezonecountry == 'US'){
+         $currency = "$"; 
+         $zocurrency = 'USD';
+         $zoregion = "USA";
+        $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options') : '01 6614677';
+     }else{
+         $currency = "$"; 
+         $zocurrency = 'USD';
+         $zoregion = "Others";
+         $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options') : '01 6614677';
+     }
+ }else{
+     if($timezonecountry == 'SG'){        
+          $currency = "S$";
+          $zocurrency ='SGD';
+          $zoregion = "Singapore";
+          $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options') : '01 6614677';
+     }elseif($timezonecountry == 'AE'){
+          $currency = "AED";
+          $zocurrency ='AED';
+          $zoregion = "UAE";
+          $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options') : '01 6614677';
+     }elseif($timezonecountry == 'ZA'){
+          $currency = "R";
+          $zocurrency ='ZAR';
+          $zoregion = "South Africa";
+          $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options') : '01 6614677';
+     }elseif($timezonecountry == 'AU'){
+          $currency = "AU$";
+          $zocurrency ='AUD';
+          $zoregion = "Australia";
+          $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options') : '01 6614677';
+     }else{
+          $currency = "$";
+          $zocurrency ='USD';
+          $zoregion = "Others";
+          $phone = get_field('tel_usaa', 'options') ? get_field('tel_usaa', 'options' ) : '01 6614677';
+          
+     } 
+ }
+}else{
+         $currency = "€"; 
+         $zocurrency = 'EUR';
+         $zoregion = "Ireland";
+        $phone = get_field('tel_ire', 'options') ? get_field('tel_ire', 'options') : '01 6614677';
+}
+
+
+?>
+
+<?php while( have_rows('page_schema_codes') ): the_row();
+        $schemaType = get_sub_field('schema_code_script_type') ? get_sub_field('schema_code_script_type') : '';
+        $schemaCode = get_sub_field('schema_code_script_value') ? get_sub_field('schema_code_script_value') : '';
+?>
+<script type="<?php echo $schemaType; ?>">
+    <?php echo $schemaCode; ?>
+</script>
+<?php endwhile; ?>
+<?php wp_head(); ?>
+</head>
+<?php 
+$url = $_SERVER['REQUEST_URI'];
+    $url = trim(parse_url($url, PHP_URL_PATH), '/');
+      $right = basename(parse_url($url, PHP_URL_PATH));
+      $correcturl  = trim($right); 
+?>
+<body <?php body_class(); ?> <?php if($correcturl == 'courses'){?> id="Course" <?php }?> ">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCRPQSF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<?php
+    $headerBarActive = get_field('header_bar_active', 'options');
+    $headerBarText = get_field('header_bar_text', 'options');
+    $link = get_field('header_bar_button', 'options');
+    if( $link ) {
+        $link_url = $link['url'];
+        $link_title = $link['title'];
+        $link_target = $link['target'] ? $link['target'] : '_self';
+    }
+?>
+<?php if( $headerBarActive ) : ?>
+    <div class="header-bar js-header-bar">
+        <div class="header-bar__desc"><p>Need advice? Call: <a class="header-bar__phone" href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a> or <a class="header-bar__contact-us" href="<?php echo site_url(); ?>/contact/">Contact Us</a></p></div>
+        <div class="header-bar__close js-header-bar-close">
+            <svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <path d="M1.27517647,0.235764706 L11.9985882,10.9591765 L22.7248235,0.235764706 C23.0115882,-0.05238 23.4775765,-0.05238 23.7643412,0.235764706 C24.0524859,0.522529412 24.0524859,0.988517647 23.7643412,1.27528235 L13.0395176,11.9986941 L23.7643412,22.7249294 C24.0524859,23.0116941 24.0524859,23.4776824 23.7643412,23.7644471 C23.4775765,24.0525918 23.0115882,24.0525918 22.7248235,23.7644471 L11.9985882,13.0396235 L1.27517647,23.7644471 C0.988411765,24.0525918 0.522423529,24.0525918 0.235658824,23.7644471 C-0.0524858824,23.4776824 -0.0524858824,23.0116941 0.235658824,22.7249294 L10.9590706,11.9986941 L0.235658824,1.27528235 C-0.0524858824,0.988517647 -0.0524858824,0.522529412 0.235658824,0.235764706 C0.522423529,-0.05238 0.988411765,-0.05238 1.27517647,0.235764706 L1.27517647,0.235764706 Z" id="path-1"></path>
+                </defs>
+                <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g  transform="translate(-1142.000000, -105.000000)">
+                        <g  transform="translate(-1.000000, 0.000000)">
+                            <g transform="translate(1143.500000, 105.866003)">
+                                <mask id="close-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <use fill="#FFFFFF" fill-rule="nonzero" xlink:href="#path-1"></use>
+                                <g mask="url(#close-2)" id="colors/white">
+                                    <g transform="translate(0.019550, 0.000000)">
+                                        <rect  fill="#FFFFFF" x="0" y="0" width="24" height="24"></rect>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+<?php endif; ?>
+<header class="header js-header">
+    <div class="u-wrapper">
+
+        <a class="logo" href="<?php echo site_url(); ?>">logo
+            <img class="js-lazy" data-src="<?php echo $GLOBALS['src'] . '/src/img/logo.png'; ?>" src="<?php echo $GLOBALS['src'] . '/src/img/logo.png'; ?>" alt="header main logo image link">
+        </a>
+
+
+        <ul class="primary__nav">
+            <?php
+                wp_nav_menu(array(
+                    'walker' => new Nav_Footer_Walker(),
+                    'theme_location' => 'main_menu',
+                    'menu_class' => '',
+                    'container' => '',
+                    'items_wrap' => '%3$s',
+                    'link_class'   => 'primary__nav-item',
+                    'link_before' => '<span class="text">',
+                    'link_after' => '</span>',
+                ));
+            ?>
+        </ul>
+        <ul class="header-icons">
+            <li>
+                <a href="mailto:<?php echo($header_mail) ?>" aria-label="gmail" >g<span class="icon icon-envelope"></span></a>
+            </li>
+            <li>
+                <a href="tel:<?php echo($header_tel) ?>" aria-label="tel">t<span class="icon icon-phone"></span></a>
+            </li>
+            <li>
+                <a href="https://my.instituteprojectmanagement.com/"  aria-label="user" target="_blank">u<span class="icon icon-person"></span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="hamburger js-hamburger">
+        <span class="hamburger__box">
+            <span class="hamburger__inner"></span>
+            <span class="hamburger__close"></span>
+        </span>
+    </div>
+
+</header> 
